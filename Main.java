@@ -51,9 +51,6 @@ public class Main {
                             System.out.println("Збережено в: " + string);
                             bw.close();
                             menu();
-                        } else if(str2.equals("Ні")) {
-                            System.out.println("Кінець");
-                            break;
                         }
                     }
                 }
@@ -74,22 +71,15 @@ public class Main {
             while ((line = br.readLine()) != null) {
                 System.out.println(line);
             }
-            System.out.println("Хочете записати новий файл?: ");
-            String str = sc.nextLine();
-            while (true) {
-            if(str.equals("Так")) {
-                mynote(massdat,str1,name);
-            } else if(str.equals("Ні")){
-                break;
-            }
-            }
         }  catch (IOException e) {
             System.out.println("Назву файла не знайдено" + e.getMessage());
             Scanner sc = new Scanner(System.in);
             System.out.println("Створіть новий.");
-            System.out.println("Введіть назву файла: ");
+            System.out.println("Хочете записати щось в цей файл?: ");
             String str = sc.nextLine();
+            if(str.equals("Так")) {
             mynote(massdat,str1,str);
+            }
         }
         return name;
     }
