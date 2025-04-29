@@ -1,6 +1,8 @@
 import java.io.*;
 import java.time.DateTimeException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -10,43 +12,33 @@ public class Main {
         menu();
     }
     public static void menu() {
-        LocalDate[] massdat = new LocalDate[5];
         Scanner sc = new Scanner(System.in);
-        String[] str1 = new String[5];
         System.out.println("~Мій щоденник~");
-        System.out.println("Введіть назву файлу: ");
+        System.out.println("Введіть назву файла в який хочете завантажити: ");
         String name = sc.nextLine();
-        System.out.println("Хочете переглянути вміст файлу?: ");
-        if(sc.nextLine().equals("Так")) {
             diary(name);
-        } else {
-            mynote(massdat,str1,name);
     }
-    }
-    public static LocalDate[] mynote(LocalDate[] massdat, String[] str1, String name) {
+    public static LocalDateTime[] mynote(String name) {
+        LocalDateTime[] massdat = new LocalDateTime[5];
+        String[] str1 = new String[5];
         Scanner sc = new Scanner(System.in);
         Scanner sc1 = new Scanner(System.in);
-        Scanner sc2 = new Scanner(System.in);
         Scanner sc3 = new Scanner(System.in);
         Scanner sc4 = new Scanner(System.in);
         while (true) {
             try (BufferedWriter bw = new BufferedWriter(new FileWriter(name))) {
                 for (int i = 0; i < massdat.length;) {
-                    System.out.println("Введіть рік: ");
-                    int year = sc.nextInt();
-                    System.out.println("Введіть місяць: ");
-                    int month = sc.nextInt();
-                    System.out.println("Введіть день: ");
-                    int day = sc.nextInt();
-                    LocalDate data = LocalDate.of(year, month, day);
+                    System.out.println("Введіть дату в форматі(ISO_LOCAL_DATE_TIME): ");
+                    String date = sc.nextLine();
+                    LocalDateTime time = LocalDateTime.parse(date, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
                     System.out.println("Введіть запис на цю дату: ");
                     String str = sc1.nextLine();
-                    System.out.println("Ваша дата: " + data);
+                    System.out.println("Ваша дата: " + date);
                     System.out.println("Ваш запис: " + str);
-                    massdat[i] = data;
+                    massdat[i] = time;
                     str1[i] = str;
                     i++;
-                    bw.write(str + " " + data + "\n");
+                    bw.write(str + " " + date + "\n");
                     if (i == 5) {
                         System.out.println("Список повний.");
                         System.out.println(Arrays.toString(massdat));
@@ -59,6 +51,9 @@ public class Main {
                             String string = sc4.nextLine();
                             System.out.println("Збережено в: " + string);
                             bw.close();
+                            break;
+                        } else if(str2.equals("Ні")) {
+                            break;
                         }
                     }
                 }
@@ -74,9 +69,19 @@ public class Main {
     }
     public static String diary(String name) {
         try (BufferedReader br = new BufferedReader(new FileReader(name))){
+            Scanner sc = new Scanner(System.in);
             String line;
             while ((line = br.readLine()) != null) {
                 System.out.println(line);
+            }
+            System.out.println("Хочете записати новий файл?: ");
+            String str = sc.nextLine();
+            while (true) {
+            if(str.equals("Так")) {
+                mynote(name);
+            } else {
+                break;
+            }
             }
         }  catch (IOException e) {
             System.out.println("Назву файла не знайдено" + e.getMessage());
