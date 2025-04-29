@@ -12,15 +12,15 @@ public class Main {
         menu();
     }
     public static void menu() {
+        LocalDateTime[] massdat = new LocalDateTime[5];
+        String[] str1 = new String[5];
         Scanner sc = new Scanner(System.in);
         System.out.println("~Мій щоденник~");
         System.out.println("Введіть назву файла в який хочете завантажити: ");
         String name = sc.nextLine();
-            diary(name);
+            diary(massdat,str1,name);
     }
-    public static LocalDateTime[] mynote(String name) {
-        LocalDateTime[] massdat = new LocalDateTime[5];
-        String[] str1 = new String[5];
+    public static LocalDateTime[] mynote(LocalDateTime[] massdat,String[] str1, String name) {
         Scanner sc = new Scanner(System.in);
         Scanner sc1 = new Scanner(System.in);
         Scanner sc3 = new Scanner(System.in);
@@ -51,8 +51,9 @@ public class Main {
                             String string = sc4.nextLine();
                             System.out.println("Збережено в: " + string);
                             bw.close();
-                            break;
+                            menu();
                         } else if(str2.equals("Ні")) {
+                            System.out.println("Кінець");
                             break;
                         }
                     }
@@ -67,7 +68,7 @@ public class Main {
             return massdat;
         }
     }
-    public static String diary(String name) {
+    public static String diary(LocalDateTime[] massdat, String[] str1, String name) {
         try (BufferedReader br = new BufferedReader(new FileReader(name))){
             Scanner sc = new Scanner(System.in);
             String line;
@@ -78,8 +79,8 @@ public class Main {
             String str = sc.nextLine();
             while (true) {
             if(str.equals("Так")) {
-                mynote(name);
-            } else {
+                mynote(massdat,str1,name);
+            } else if(str.equals("Ні")){
                 break;
             }
             }
