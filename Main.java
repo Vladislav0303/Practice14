@@ -1,6 +1,5 @@
 import java.io.*;
 import java.time.DateTimeException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -86,6 +85,11 @@ public class Main {
             }
         }  catch (IOException e) {
             System.out.println("Назву файла не знайдено" + e.getMessage());
+            Scanner sc = new Scanner(System.in);
+            System.out.println("Створіть новий.");
+            System.out.println("Введіть назву файла: ");
+            String str = sc.nextLine();
+            mynote(massdat,str1,str);
         }
         return name;
     }
